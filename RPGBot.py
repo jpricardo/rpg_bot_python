@@ -3,7 +3,7 @@ import random
 
 def command_list():
     comandos = ['dice']
-    print(comandos)
+    print('Comandos válidos:', comandos)
 
 def dice():
     D6 = list(range(1, 7))
@@ -37,8 +37,6 @@ def dice():
 
     dice_rolling(input('Qual dado você quer rolar? (D6, D20) '), int(input('Quantas vezes?')))
 
-
-
 def functions(choice):
     if choice == 'dice':
         dice()
@@ -54,3 +52,5 @@ while True:
     if loop == 'n':
         print('Fim do processo')
         break
+    else:
+        print('Por favor, entre com uma resposta válida')
