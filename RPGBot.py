@@ -1,6 +1,10 @@
 #to começando
 import random
 
+def command_list():
+    comandos = ['dice']
+    print(comandos)
+
 def dice():
     D6 = list(range(1, 7))
     D20 = list(range(1, 21))
@@ -32,4 +36,21 @@ def dice():
 
 
     dice_rolling(input('Qual dado você quer rolar? (D6, D20) '), int(input('Quantas vezes?')))
-dice()
+
+
+
+def functions(choice):
+    if choice == 'dice':
+        dice()
+    if choice == 'command_list':
+        command_list()
+    else:
+        print('Pra acessar a lista de comandos, entre com command_list')
+
+while True:
+    loop = input('Inserir comando? (y/n) ').lower()
+    if loop == 'y':
+        functions(input('Entre com um comando: ').lower())
+    if loop == 'n':
+        print('Fim do processo')
+        break
