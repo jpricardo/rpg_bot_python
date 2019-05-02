@@ -75,7 +75,7 @@ def combat_dice(damage):
 def combat(char_hp, foe_hp, att_stat): #MODO DE COMBATE
     damage = [] #INICIA A LISTA DE DANO
     while char_hp > 0 and foe_hp > 0:
-        action = input('O que você vai fazer? (fight, run)').lower()
+        action = input('O que você vai fazer? (fight, run) ').lower()
         if action == 'fight':
             combat_dice(damage) #CHAMA A FUNÇÃO QUE RANDOMIZA O DANO BASEADO NOS DADOS
             for i in damage: #SOMA TODOS OS VALORES AO PRIMEIRO
