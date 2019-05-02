@@ -51,6 +51,9 @@ def combat_dice(damage):
     D4 = list(range(1, 5))
     dado_type = input('Qual dado vc quer rolar? (D4, D6, D20, D100) ')
     dado_rep = int(input('Quantas vezes? '))
+    while dado_rep == 0:
+        print('Escolha quantas vezes rolar o dado! ')
+        dado_rep = int(input('Quantas vezes? '))
     while dado_rep > 0:
         if dado_type == 'd6' or dado_type == 'D6':
             dado_roll = random.choice(D6)
@@ -60,14 +63,17 @@ def combat_dice(damage):
         if dado_type == 'd20' or dado_type == 'D20':
             dado_roll = random.choice(D20)
             print('Você rolou o número', dado_roll)
+            damage.append(dado_roll)
             dado_rep = dado_rep - 1
         if dado_type == 'd100' or dado_type == 'D100':
             dado_roll = random.choice(D100)
             print('Você rolou o número', dado_roll)
+            damage.append(dado_roll)
             dado_rep = dado_rep - 1
         if dado_type == 'd4' or dado_type == 'D4':
             dado_roll = random.choice(D4)
             print('Você rolou o número', dado_roll)
+            damage.append(dado_roll)
             dado_rep = dado_rep - 1
     if dado_rep == 0:
         print('Pronto!')
@@ -79,7 +85,7 @@ def combat(char_hp, foe_hp, att_stat):
         action = input('O que você vai fazer? (fight, run)').lower()
         if action == 'fight':
             combat_dice(damage)
-            print(damage)
+            print('O dano causado foi', damage[0])
 
 def functions(choice):
     if choice == 'dice':
