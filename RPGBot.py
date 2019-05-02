@@ -7,11 +7,6 @@ char_hp = 100
 foe_hp = 100
 att_stat = 15
 
-
-
-
-
-
 def command_list():
     comandos = ['dice', 'combat']
     print('Comandos válidos:', comandos)
@@ -89,6 +84,8 @@ def combat(char_hp, foe_hp, att_stat): #MODO DE COMBATE
                 else:
                     damage[0] = damage[0] + i
             print('O dano causado foi', damage[0]) #MOSTRA O PRIMEIRO VALOR
+            foe_hp = foe_hp - damage[0]
+            damage = []
         if action == 'run':
             run_dice = list(range(1, 7))
             chance = random.choice(run_dice) + random.choice(run_dice)
@@ -98,6 +95,10 @@ def combat(char_hp, foe_hp, att_stat): #MODO DE COMBATE
                 break
             else:
                 print('Não conseguiu fugir!!!')
+    if char_hp <= 0:
+        print('VOCÊ MORREU...')
+    if foe_hp <= 0:
+        print('VOCÊ VENCEU!!!')
 
 def functions(choice):
     if choice == 'dice':
@@ -117,4 +118,4 @@ while True:
         print('Fim do processo')
         break
     else:
-        print('Por favor, entre com uma resposta válida')
+        print('...')
