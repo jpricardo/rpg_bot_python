@@ -3,13 +3,59 @@
 import random
 
 
+char_list = []
+
 char_hp = 100
 foe_hp = 100
-att_stat = 15
+att_stat = 50
 
 def command_list(): #lista dos comandos possíveis no começo do programa
-    comandos = ['dice', 'combat']
+    comandos = ['dice', 'combat', 'characters']
     print('Comandos válidos:', comandos)
+
+def create_char(char_list):
+    char_hp = 0
+    char_att = 100
+    char_luck = 100
+    char_class = 0
+    char_name = input('Nome do personagem: ')
+    race = input('Qual a raça do personagem? (Humano, Elfo, Anão) ')
+    if race.lower() == 'elfo':
+        char_hp = 75
+    if race.lower() == 'humano':
+        char_hp = 100
+    if race.lower() == 'anão':
+        char_hp = 125
+    classe = input('Qual a classe do seu personagem? (Mago, DPS, Guerreiro) ')
+    if classe.lower() == 'mago':
+        char_hp = char_hp * 0.9
+        char_att = char_att * 1.5
+        char_luck = char_luck * 0.5
+    if classe.lower() == 'dps':
+        char_hp = char_hp * 0.75
+        char_att = char_att * 1.2
+        char_luck = char_luck * 0.85
+    if classe.lower() == 'guerreiro':
+        char_hp = char_hp * 1.5
+        char_att = char_att * 1
+        char_luck = char_luck * 0.75
+    backstory = input('Qual a backstory do seu personagem? ')
+    char_name = [char_name, char_hp, char_att, char_luck, backstory]
+    char_list.append(char_name)
+    print('Personagem criado!')
+    print('Nome:', char_name[0])
+    print('HP:', char_name[1])
+    print('Ataque:', char_name[2])
+    print('Backstory:', char_name[4])
+
+
+
+def characters():
+    choice = input('Selecione uma opção: (create, view, stats)')
+    if choice.lower() == 'create':
+        create_char(char_list)
+    if choice.lower() == 'view':
+        print(char_list)
 
 def dice(): #joga os dados, mostra os resultados.
     D6 = list(range(1, 7))
@@ -107,6 +153,8 @@ def functions(choice): #função que chama as outras
         command_list()
     if choice == 'combat':
         combat(char_hp, foe_hp, att_stat)
+    if choice == 'characters':
+        characters()
     else:
         print('Pra acessar a lista de comandos, entre com command_list')
 
