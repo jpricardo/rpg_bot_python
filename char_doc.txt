@@ -1,0 +1,4 @@
+ 
+['joao', 75.0, 120.0, 85.0, 'cachorro quente']
+['glorinha', 187.5, 100, 75.0, 'milho cozinhado']
+['gustavo', 90.0, 150.0, 50.0, 'meu pintão mole ']
