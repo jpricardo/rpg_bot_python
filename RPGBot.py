@@ -9,6 +9,11 @@ char_hp = 100
 foe_hp = 100
 att_stat = 50
 
+def save():
+    with open ('char_doc.txt', 'rb') as fp:
+        itemlist = pickle.load(fp)
+        print(itemlist)
+
 def desenho():
     print(':-)')
 
@@ -17,7 +22,6 @@ def command_list(): #lista dos comandos possíveis no começo do programa
     print('Comandos válidos:', comandos)
 
 def create_char(char_list):
-    f = open('char_doc.txt', 'r+')
     char_hp = 0
     char_att = 100
     char_luck = 100
@@ -45,9 +49,9 @@ def create_char(char_list):
         char_luck = char_luck * 0.75
     backstory = input('Qual a backstory do seu personagem? ')
     char_name = [char_name, char_hp, char_att, char_luck, backstory]
-    char_list.append(char_name)
-    for item in char_list:
-        f.write('%s\n' % item)
+    char_list.append(char_name) #TEXTANDO PICKLE COMO SISTEMA DE SALVAMENTO
+    with open('char_doc.txt', 'wb') as fp:
+        pickle.dump(char_list, fp)
     print('Personagem criado!')
     print('Nome:', char_name[0])
     print('HP:', char_name[1])
@@ -171,6 +175,8 @@ def functions(choice): #função que chama as outras
         desenho()
     if choice == 'exit':
         um_mais_um = 2
+    if choice == 'save':
+        save()
     else:
         while True:
             print('Pra acessar a lista de comandos, entre com command_list')
