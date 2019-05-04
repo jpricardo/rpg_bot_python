@@ -3,11 +3,14 @@
 import random
 
 
-char_list = []
+char_list = [' ']
 
 char_hp = 100
 foe_hp = 100
 att_stat = 50
+
+def desenho():
+    print(':-)')
 
 def command_list(): #lista dos comandos possíveis no começo do programa
     comandos = ['dice', 'combat', 'characters']
@@ -48,14 +51,20 @@ def create_char(char_list):
     print('Ataque:', char_name[2])
     print('Backstory:', char_name[4])
 
-
-
 def characters():
     choice = input('Selecione uma opção: (create, view, stats)')
     if choice.lower() == 'create':
         create_char(char_list)
     if choice.lower() == 'view':
         print(char_list)
+    if choice.lower() == 'stats':
+        print(char_list)
+        char_select = input('De qual personagem? (1, 2, 3...) ')
+        char_select = char_list[int(char_select)]
+        print('Nome:', char_select[0])
+        print('HP:', char_select[1])
+        print('Ataque:', char_select[2])
+        print('Backstory:', char_select[4])
 
 def dice(): #joga os dados, mostra os resultados.
     D6 = list(range(1, 7))
@@ -155,6 +164,8 @@ def functions(choice): #função que chama as outras
         combat(char_hp, foe_hp, att_stat)
     if choice == 'characters':
         characters()
+    if choice == 'desenho':
+        desenho()
     else:
         print('Pra acessar a lista de comandos, entre com command_list')
 
