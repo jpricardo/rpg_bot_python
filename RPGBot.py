@@ -166,8 +166,12 @@ def functions(choice): #função que chama as outras
         characters()
     if choice == 'desenho':
         desenho()
+    if choice == 'exit':
+        return True
     else:
-        print('Pra acessar a lista de comandos, entre com command_list')
+        while True:
+            print('Pra acessar a lista de comandos, entre com command_list')
+            functions(input('Entre com um comando: ').lower())
 
 while True: #loop da UI, vc escolhe se vai continuar no loop ou terminar o programa
     loop = input('Inserir comando? (y/n) ').lower()
