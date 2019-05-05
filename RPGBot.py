@@ -20,7 +20,6 @@ def force_start():
     else:
         print('...')
 
-
 def load(char_list):
     print('O jogo funciona com base em saves automáticos, esse comando só mostra os itens salvos')
     print('Pra limpar o save, use o comando force_star. ESSE COMANDO APAGA TODOS OS DADOS (NÃO REVERSÍVEL)')
