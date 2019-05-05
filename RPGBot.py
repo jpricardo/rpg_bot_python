@@ -77,12 +77,16 @@ def create_char(char_list):
     print('Backstory:', char_name[4])
 
 def characters():
-    choice = input('Selecione uma opção: (create, view, stats)')
+    choice = input('Selecione uma opção: (create, view, stats) ')
     if choice.lower() == 'create':
         create_char(char_list)
-    if choice.lower() == 'view':
-        print(char_list)
-    if choice.lower() == 'stats':
+    elif choice.lower() == 'view':
+        contador = 1
+        for i in char_list[1:]:
+            personagem = char_list[contador]
+            print(personagem[0])
+            contador = contador + 1
+    elif choice.lower() == 'stats':
         contador = 1
         for i in char_list[1:]:
             personagem = char_list[contador]
@@ -94,6 +98,8 @@ def characters():
         print('HP:', char_select[1])
         print('Ataque:', char_select[2])
         print('Backstory:', char_select[4])
+    else:
+        characters()
 
 def dice(): #joga os dados, mostra os resultados.
     D6 = list(range(1, 7))
