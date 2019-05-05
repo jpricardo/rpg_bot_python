@@ -25,7 +25,7 @@ def load(char_list):
     print('Pra limpar o save, use o comando force_start. ESSE COMANDO APAGA TODOS OS DADOS (NÃO REVERSÍVEL)')
     with open ('char_doc.txt', 'rb') as fp:
         itemlist = pickle.load(fp)
-        print(itemlist)
+        print(itemlist[0], len(itemlist) - 1, 'personagens salvos')
 
 def save():
     with open ('char_doc.txt', 'rb') as fp:
@@ -213,7 +213,7 @@ while True: #loop da UI, vc escolhe se vai continuar no loop ou terminar o progr
     if loop == 'y':
         with open ('char_doc.txt', 'rb') as fp:
             char_list = pickle.load(fp)
-            print(char_list)
+            print(char_list[0], len(char_list) - 1, 'personagens salvos')
         functions(input('Entre com um comando: ').lower())
     if loop == 'n':
         print('Fim do processo')
