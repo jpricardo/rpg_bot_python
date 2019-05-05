@@ -2,21 +2,31 @@
 
 import random
 import pickle
+import sys
+import datetime
 
 char_hp = 100
 foe_hp = 100
 att_stat = 50
+char_list = [' ']
 
 def force_start():
-    char_list = [' ']
-    with open('char_doc.txt', 'wb') as fp:
-        pickle.dump(char_list, fp)
-    print('Save iniciado!')
+    resposta = input('Tem certeza? Seu save será PERMANENTEMENTE APAGADO (y/n) ')
+    if resposta.lower() == 'y':
+        char_list = [str(datetime.datetime.now())]
+        with open('char_doc.txt', 'wb') as fp:
+            pickle.dump(char_list, fp)
+        print('Save iniciado! O que foi feito não poderá ser desfeito...')
+    else:
+        print('...')
 
-def load():
-    fp = open('char_doc.txt', 'rb')
-    char_list = pickle.load(fp)
-    print(char_list)
+
+def load(char_list):
+    print('O jogo funciona com base em saves automáticos, esse comando só mostra os itens salvos')
+    print('Pra limpar o save, use o comando force_star. ESSE COMANDO APAGA TODOS OS DADOS (NÃO REVERSÍVEL)')
+    with open ('char_doc.txt', 'rb') as fp:
+        itemlist = pickle.load(fp)
+        print(itemlist)
 
 def save():
     with open ('char_doc.txt', 'rb') as fp:
@@ -57,8 +67,8 @@ def create_char(char_list):
         char_att = char_att * 1
         char_luck = char_luck * 0.75
     backstory = input('Qual a backstory do seu personagem? ')
-    char_name = [char_name, char_hp, char_att, char_luck, backstory]
-    char_list.append(char_name) #TEXTANDO PICKLE COMO SISTEMA DE SALVAMENTO
+    char_name = [str(char_name), char_hp, char_att, char_luck, backstory]
+    char_list.append(char_name) #TESTANDO PICKLE COMO SISTEMA DE SALVAMENTO
     with open('char_doc.txt', 'wb') as fp:
         pickle.dump(char_list, fp)
     print('Personagem criado!')
@@ -187,7 +197,7 @@ def functions(choice): #função que chama as outras
     if choice == 'save':
         save()
     if choice == 'load':
-        load()
+        load(char_list)
     if choice == 'force_start':
         force_start()
     else:
@@ -198,6 +208,9 @@ def functions(choice): #função que chama as outras
 while True: #loop da UI, vc escolhe se vai continuar no loop ou terminar o programa
     loop = input('Inserir comando? (y/n) ').lower()
     if loop == 'y':
+        with open ('char_doc.txt', 'rb') as fp:
+            char_list = pickle.load(fp)
+            print(char_list)
         functions(input('Entre com um comando: ').lower())
     if loop == 'n':
         print('Fim do processo')
