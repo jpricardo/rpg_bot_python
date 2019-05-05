@@ -20,13 +20,12 @@ def force_start():
     else:
         print('...')
 
-
 def load(char_list):
     print('O jogo funciona com base em saves automáticos, esse comando só mostra os itens salvos')
-    print('Pra limpar o save, use o comando force_star. ESSE COMANDO APAGA TODOS OS DADOS (NÃO REVERSÍVEL)')
+    print('Pra limpar o save, use o comando force_start. ESSE COMANDO APAGA TODOS OS DADOS (NÃO REVERSÍVEL)')
     with open ('char_doc.txt', 'rb') as fp:
         itemlist = pickle.load(fp)
-        print(itemlist)
+        print(itemlist[0], len(itemlist) - 1, 'personagens salvos')
 
 def save():
     with open ('char_doc.txt', 'rb') as fp:
@@ -37,7 +36,7 @@ def desenho():
     print(':-)')
 
 def command_list(): #lista dos comandos possíveis no começo do programa
-    comandos = ['dice', 'combat', 'characters']
+    comandos = ['dice', 'combat', 'characters', 'load']
     print('Comandos válidos:', comandos)
 
 def create_char(char_list):
@@ -84,7 +83,11 @@ def characters():
     if choice.lower() == 'view':
         print(char_list)
     if choice.lower() == 'stats':
-        print(char_list)
+        contador = 1
+        for i in char_list[1:]:
+            personagem = char_list[contador]
+            print(contador, ':', personagem[0])
+            contador = contador + 1
         char_select = input('De qual personagem? (1, 2, 3...) ')
         char_select = char_list[int(char_select)]
         print('Nome:', char_select[0])
@@ -210,7 +213,7 @@ while True: #loop da UI, vc escolhe se vai continuar no loop ou terminar o progr
     if loop == 'y':
         with open ('char_doc.txt', 'rb') as fp:
             char_list = pickle.load(fp)
-            print(char_list)
+            print(char_list[0], len(char_list) - 1, 'personagens salvos')
         functions(input('Entre com um comando: ').lower())
     if loop == 'n':
         print('Fim do processo')
