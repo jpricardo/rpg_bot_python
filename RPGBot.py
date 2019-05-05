@@ -1,15 +1,96 @@
 #começa a ler de baixo pra cima (while, functions, combat, combat_dice, dice, command_list), vai ser mais fácil de entender
 
 import random
-
+import pickle
+import sys
+import datetime
 
 char_hp = 100
 foe_hp = 100
-att_stat = 15
+att_stat = 50
+char_list = [' ']
+
+def force_start():
+    resposta = input('Tem certeza? Seu save será PERMANENTEMENTE APAGADO (y/n) ')
+    if resposta.lower() == 'y':
+        char_list = [str(datetime.datetime.now())]
+        with open('char_doc.txt', 'wb') as fp:
+            pickle.dump(char_list, fp)
+        print('Save iniciado! O que foi feito não poderá ser desfeito...')
+    else:
+        print('...')
+
+
+def load(char_list):
+    print('O jogo funciona com base em saves automáticos, esse comando só mostra os itens salvos')
+    print('Pra limpar o save, use o comando force_star. ESSE COMANDO APAGA TODOS OS DADOS (NÃO REVERSÍVEL)')
+    with open ('char_doc.txt', 'rb') as fp:
+        itemlist = pickle.load(fp)
+        print(itemlist)
+
+def save():
+    with open ('char_doc.txt', 'rb') as fp:
+        itemlist = pickle.load(fp)
+        print(itemlist)
+
+def desenho():
+    print(':-)')
 
 def command_list(): #lista dos comandos possíveis no começo do programa
-    comandos = ['dice', 'combat']
+    comandos = ['dice', 'combat', 'characters']
     print('Comandos válidos:', comandos)
+
+def create_char(char_list):
+    char_hp = 0
+    char_att = 100
+    char_luck = 100
+    char_class = 0
+    char_name = input('Nome do personagem: ')
+    race = input('Qual a raça do personagem? (Humano, Elfo, Anão) ')
+    if race.lower() == 'elfo':
+        char_hp = 75
+    if race.lower() == 'humano':
+        char_hp = 100
+    if race.lower() == 'anão':
+        char_hp = 125
+    classe = input('Qual a classe do seu personagem? (Mago, DPS, Guerreiro) ')
+    if classe.lower() == 'mago':
+        char_hp = char_hp * 0.9
+        char_att = char_att * 1.5
+        char_luck = char_luck * 0.5
+    if classe.lower() == 'dps':
+        char_hp = char_hp * 0.75
+        char_att = char_att * 1.2
+        char_luck = char_luck * 0.85
+    if classe.lower() == 'guerreiro':
+        char_hp = char_hp * 1.5
+        char_att = char_att * 1
+        char_luck = char_luck * 0.75
+    backstory = input('Qual a backstory do seu personagem? ')
+    char_name = [str(char_name), char_hp, char_att, char_luck, backstory]
+    char_list.append(char_name) #TESTANDO PICKLE COMO SISTEMA DE SALVAMENTO
+    with open('char_doc.txt', 'wb') as fp:
+        pickle.dump(char_list, fp)
+    print('Personagem criado!')
+    print('Nome:', char_name[0])
+    print('HP:', char_name[1])
+    print('Ataque:', char_name[2])
+    print('Backstory:', char_name[4])
+
+def characters():
+    choice = input('Selecione uma opção: (create, view, stats)')
+    if choice.lower() == 'create':
+        create_char(char_list)
+    if choice.lower() == 'view':
+        print(char_list)
+    if choice.lower() == 'stats':
+        print(char_list)
+        char_select = input('De qual personagem? (1, 2, 3...) ')
+        char_select = char_list[int(char_select)]
+        print('Nome:', char_select[0])
+        print('HP:', char_select[1])
+        print('Ataque:', char_select[2])
+        print('Backstory:', char_select[4])
 
 def dice(): #joga os dados, mostra os resultados.
     D6 = list(range(1, 7))
@@ -107,12 +188,29 @@ def functions(choice): #função que chama as outras
         command_list()
     if choice == 'combat':
         combat(char_hp, foe_hp, att_stat)
+    if choice == 'characters':
+        characters()
+    if choice == 'desenho':
+        desenho()
+    if choice == 'exit':
+        um_mais_um = 2
+    if choice == 'save':
+        save()
+    if choice == 'load':
+        load(char_list)
+    if choice == 'force_start':
+        force_start()
     else:
-        print('Pra acessar a lista de comandos, entre com command_list')
+        while True:
+            print('Pra acessar a lista de comandos, entre com command_list')
+            functions(input('Entre com um comando: ').lower())
 
 while True: #loop da UI, vc escolhe se vai continuar no loop ou terminar o programa
     loop = input('Inserir comando? (y/n) ').lower()
     if loop == 'y':
+        with open ('char_doc.txt', 'rb') as fp:
+            char_list = pickle.load(fp)
+            print(char_list)
         functions(input('Entre com um comando: ').lower())
     if loop == 'n':
         print('Fim do processo')
