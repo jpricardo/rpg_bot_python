@@ -3,11 +3,20 @@
 import random
 import pickle
 
-char_list = [' ']
-
 char_hp = 100
 foe_hp = 100
 att_stat = 50
+
+def force_start():
+    char_list = [' ']
+    with open('char_doc.txt', 'wb') as fp:
+        pickle.dump(char_list, fp)
+    print('Save iniciado!')
+
+def load():
+    fp = open('char_doc.txt', 'rb')
+    char_list = pickle.load(fp)
+    print(char_list)
 
 def save():
     with open ('char_doc.txt', 'rb') as fp:
@@ -177,6 +186,10 @@ def functions(choice): #função que chama as outras
         um_mais_um = 2
     if choice == 'save':
         save()
+    if choice == 'load':
+        load()
+    if choice == 'force_start':
+        force_start()
     else:
         while True:
             print('Pra acessar a lista de comandos, entre com command_list')
