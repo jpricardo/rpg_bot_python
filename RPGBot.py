@@ -175,8 +175,10 @@ def combat(char_list): #MODO DE COMBATE
                     print('CALCULANDO DANO...')
                 else: #pros outros itens, eles são somados ao primeiro
                     damage[0] = damage[0] + i
-            print('O dano causado foi', damage[0]) #mostra o primeiro valor
-            foe_hp = foe_hp - damage[0] #subtrai da vida do inimigo o dano causado
+            att = char_select[2]/100
+            real_damage = damage[0] * att
+            print('O dano causado foi', real_damage) #mostra o primeiro valor
+            foe_hp = foe_hp - real_damage #subtrai da vida do inimigo o dano causado
             damage = [] #esvazia a lista de dano, dessa forma dá pra repetir o processo quanto precisar
         if action == 'run': #se escolher 'run' vai rolar 2 dados, se a média entre eles for > 2.5 vc foge, se não for vc fica
             run_dice = list(range(1, 7))
