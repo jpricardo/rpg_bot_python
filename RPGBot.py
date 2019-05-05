@@ -156,9 +156,17 @@ def combat_dice(damage):
     if dado_rep == 0: #quando o contador zera, o processo para
         print('...')
 
-def combat(char_hp, foe_hp, att_stat): #MODO DE COMBATE
+def combat(char_list): #MODO DE COMBATE
+    contador = 1
     damage = [] #INICIA A LISTA DE DANO
-    while char_hp > 0 and foe_hp > 0:
+    foe_hp = 100
+    for i in char_list[1:]:
+        personagem = char_list[contador]
+        print(contador, ':', personagem[0])
+        contador = contador + 1
+    char_select = input('Com qual personagem deseja entrar num combate?(1, 2, 3...) ')
+    char_select = char_list[int(char_select)]
+    while char_select[1] > 0 and foe_hp > 0:
         action = input('O que você vai fazer? (fight, run) ').lower()
         if action == 'fight':
             combat_dice(damage) #chama a função dos dados de combate
@@ -179,7 +187,7 @@ def combat(char_hp, foe_hp, att_stat): #MODO DE COMBATE
                 break
             else:
                 print('Não conseguiu fugir!!!')
-    if char_hp <= 0: #se vc morrer vc morre (ainda não tem como vc levar dano, mas vai ter)
+    if char_select[1] <= 0: #se vc morrer vc morre (ainda não tem como vc levar dano, mas vai ter)
         print('VOCÊ MORREU...') #git gud
     if foe_hp <= 0: #se o maluco morrer vc ganha
         print('VOCÊ VENCEU!!!')
@@ -190,7 +198,7 @@ def functions(choice): #função que chama as outras
     if choice == 'command_list':
         command_list()
     if choice == 'combat':
-        combat(char_hp, foe_hp, att_stat)
+        combat(char_list)
     if choice == 'characters':
         characters()
     if choice == 'desenho':
