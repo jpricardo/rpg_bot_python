@@ -1,10 +1,16 @@
 # rpg_bot_python
 
-É um bot feito em Python (que roda no Prompt de comando) que serve pra auxiliar jogadores de RPG.
+My first project, doing this just to learn the language.
 
-Atualmente ele só serve pra jogar dados, e não são todos os dados. Com o tempo espero que o bot sirva como substituto ao papel e aos dados que os jogadores normalmente usam.
+It's a program made to help RPG players. It works as a notebook/character chart/dice thrower.
 
-To fazendo isso só pra aprender mais sobre a linguagem, talvez eu chegue a lançar o programa como um app Android.
+To use it is really simple, just clone or download the files into the same folder. The .py file is the program and the .txt is where the program stores its data (Created characters and their stats).
+
+The program is very customizable, can fit everyone's needs with just some small changes.
+
+The more I learn about Python, I will update the program to make it the better it can be.
+
+Thanks a lot.
 
 
 
