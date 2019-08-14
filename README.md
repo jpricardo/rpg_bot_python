@@ -15,8 +15,6 @@ Thanks a lot.
 
 
 
-#LITERALLY REBUILDING IT FROM STEP ONE, EVERYTHING WILL BECOME MORE INTUITIVE AND "CLEAN".
 
-At the present time, there is no combat mechanic, the dice throws will be reworked, all menus will change and there will be a """plot"""
 
 João P.
