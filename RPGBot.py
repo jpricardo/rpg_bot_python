@@ -18,6 +18,7 @@ char_hp = 100
 foe_hp = 100
 att_stat = 50
 char_list = autoload() #lista de personagens, ela inicia puxando do arquivo de texto por padrão
+char_dict = {}
 role_dict = {}
 role_list = []
 race_dict = {}
@@ -34,11 +35,17 @@ class character():
         self.backstory = backstory
         self.list = [self.name, self.hp, self.att, self.luck, self.backstory]
         lista.append(self.list)
+        char_dict[self.name] = self
+        print(char_dict)
 
     def save_char(self, lista): #Salva um personagem no arquivo de texto
         with open('char_doc.txt', 'wb') as fp:
             pickle.dump(lista, fp)
         print('Personagem salvo com sucesso!', self.name)
+        
+    def heal(self, heal_ammount):
+        self.hp = self.hp + heal_ammount
+        print(self.name, 'HP:', self.hp)
 
 
 class char_race():
@@ -59,24 +66,26 @@ class char_role():
         role_dict[self.name] = self
 
 
-#class enemy():
-    #pass
-    #base_stats = list(0, 151)
-    
-    #def __init__(self, difficulty, xp_value):
+class enemy():
+
+    def __init__(self, difficulty, xp_value): #MEXE NISSO AQUI
+        base_stats = list(range(1, 151))
         
-        #random_multiplier = random.choice(base_stats)
-        #if difficulty == 0:
-            #self.HP = 
-        #if difficulty == 1:
-        
-        #if difficulty == 2:
-        
-        #if difficulty == 3:
-        
-        #if difficulty == 4:
-        
-        #if difficulty >= 5:
+        random_multiplier = random.choice(base_stats)
+        if difficulty == 1:
+            self.hp = base_stats
+            self.dado = list(range(0, 5))
+        if difficulty == 2:
+            self.hp == base_stats * 0.1
+        if difficulty == 3:
+            self.hp == base_stats * 0.5
+        if difficulty == 4:
+            self.hp = base_stats * 1.0
+        if difficulty == 5:
+            self.hp = base_stats * 2.0
+        if difficulty >= 6:
+            self.hp = base_stats * difficulty * 1.5
+            self.dado = list(range(10, 20))
 
 
 
@@ -233,79 +242,44 @@ def dice(): #joga os dados, mostra os resultados.
         print('Pronto!')
 
 
-def combat_dice(damage):
-    D6 = list(range(1, 7))
-    D20 = list(range(1, 21))
-    D100 = list(range(1, 101))
-    D4 = list(range(1, 5))
-    dado_type = input('Qual dado vc quer rolar? (D4, D6, D20, D100) ')
-    dado_rep = input('Quantas vezes? ') #define o contador (vezes que vai jogar o dado)
-    while dado_rep.isalpha() == True:
-        print('Apenas valores numéricos!')
-        dado_rep = input('Quantas vezes? ')
-    dado_rep = int(dado_rep)
-    while dado_rep == 0: #loop caso o usuário escolha 0, ele precisa escolher alguem número diferente de 0
-        print('Escolha quantas vezes rolar o dado! ')
-        dado_rep = int(input('Quantas vezes? '))
-    while dado_rep > 0: #enquanto o contador for > 0, o loop continua
-        if dado_type == 'd6' or dado_type == 'D6':
-            dado_roll = random.choice(D6)
-            print('Você rolou o número', dado_roll)
-            damage.append(dado_roll) #coloca o valor dos dados na lista 'damage'
-            dado_rep = dado_rep - 1 #diminui o contador
-        elif dado_type == 'd20' or dado_type == 'D20':
-            dado_roll = random.choice(D20)
-            print('Você rolou o número', dado_roll)
-            damage.append(dado_roll)
-            dado_rep = dado_rep - 1
-        elif dado_type == 'd100' or dado_type == 'D100':
-            dado_roll = random.choice(D100)
-            print('Você rolou o número', dado_roll)
-            damage.append(dado_roll)
-            dado_rep = dado_rep - 1
-        elif dado_type == 'd4' or dado_type == 'D4':
-            dado_roll = random.choice(D4)
-            print('Você rolou o número', dado_roll)
-            damage.append(dado_roll)
-            dado_rep = dado_rep - 1
-        elif dado_type == 'exit':
-            exit = 1
-            while exit == 1:
-                print('Saindo...')
-                exit = exit + 1
-                functions(input('Entre com um comando: ').lower())
-        else:
-            print('Escolha uma opção válida ou EXIT pra sair!')
-            dado_rep = dado_rep - 100
-            combat_dice(damage)
-    if dado_rep <= 0: #quando o contador zera, o processo para
-        print('...')
-
-
 def combat(): #MODO DE COMBATE
-    contador = 1
+    healing = []
+    total_healing = 0
     damage = [] #INICIA A LISTA DE DANO
+    damage_dealt = 0
     foe_hp = 100
+    contador = 1
     for i in char_list[1:]:
         personagem = char_list[contador]
         print(contador, ':', personagem[0])
         contador = contador + 1
-    char_select = input('Com qual personagem deseja entrar num combate?(1, 2, 3...) ')
-    char_select = char_list[int(char_select)]
-    while char_select[1] > 0 and foe_hp > 0:
-        action = input('O que você vai fazer? (fight, run) ').lower()
+        
+        
+    #SELEÇÃO DE PERSONAGEM    
+    choice = input('Com qual personagem deseja entrar num combate?(1, 2, 3...) ')
+    personagem = char_list[int(choice)][0]
+    while char_dict[personagem].hp > 0 and foe_hp > 0:
+        action = input('O que você vai fazer? (fight, run, heal) ').lower()
+        
+        
+        #CICLO DE LUTA
         if action == 'fight':
-            combat_dice(damage) #chama a função dos dados de combate
+            dado_rep = 6
+            while dado_rep > 0:
+                dado_roll = random.choice(list(range(0, 7)))
+                damage.append(dado_roll)
+                dado_rep = dado_rep - 1
             for i in damage: #pega o resultado dos dados e passa pelo loop
-                if i == damage[0]: #pro primeiro item da lista não acontece nada, pode acontecer de bugar o código com números repetidos
-                    print('CALCULANDO DANO...')
-                else: #pros outros itens, eles são somados ao primeiro
-                    damage[0] = damage[0] + i
-            att = char_select[2]/100
-            real_damage = damage[0] * att
-            print('O dano causado foi', real_damage) #mostra o primeiro valor
+                damage_dealt = damage_dealt + i
+            att = char_dict[personagem].att/100
+            real_damage = damage_dealt * att
+            print('O dano causado foi', real_damage)
             foe_hp = foe_hp - real_damage #subtrai da vida do inimigo o dano causado
             damage = [] #esvazia a lista de dano, dessa forma dá pra repetir o processo quanto precisar
+            damage_dealt = 0
+            
+            
+        #CICLO DE FUGA
         if action == 'run': #se escolher 'run' vai rolar 2 dados, se a média entre eles for > 2.5 vc foge, se não for vc fica
             run_dice = list(range(1, 7))
             chance = random.choice(run_dice) + random.choice(run_dice)
@@ -315,17 +289,24 @@ def combat(): #MODO DE COMBATE
                 break
             else:
                 print('Não conseguiu fugir!!!')
-        if action == 'exit':
-            exit = 1
-            while exit == 1:
-                print('Saindo...')
-                exit = exit + 1
-                functions(input('Entre com um comando: ').lower())
+                
+        if action == 'heal':
+            dado_rep = 6
+            while dado_rep > 0:
+                dado_roll = random.choice(list(range(0, 7)))
+                healing.append(dado_roll)
+                dado_rep = dado_rep - 1
+            for i in healing: #pega o resultado dos dados e passa pelo loop
+                total_healing = total_healing + i
+            lck = char_dict[personagem].luck/100
+            total_healing = total_healing * lck
+            print('A cura foi de: ', total_healing)
+            char_dict[personagem].heal(total_healing)
+        
         else:
-            while True:
-                print('Escolha uma opção válida ou EXIT pra sair!')
-                break
-    if char_select[1] <= 0: #se vc morrer vc morre (ainda não tem como vc levar dano, mas vai ter)
+            print('Escolha uma opção válida!')
+
+    if char_dict[personagem].hp <= 0: #se vc morrer vc morre (ainda não tem como vc levar dano, mas vai ter)
         print('VOCÊ MORREU...') #git gud
     if foe_hp <= 0: #se o maluco morrer vc ganha
         print('VOCÊ VENCEU!!!')
@@ -344,8 +325,6 @@ def main_menu(): #literalmente o menu
         function_dict[function_list[choice]]()
     else:
         main_menu()
-
-
 
 
 def main(): #loop da UI, vc escolhe se vai continuar no loop ou terminar o programa
@@ -397,6 +376,10 @@ def run_script():
 
 
 run_script() #INICIALIZA TODOS OS OBJETOS
-main()
+
+for i in list(range(0, 11)):
+    mlk = str(i)
+    mlk = enemy(i, 10)
+    print(mlk)
 
  
